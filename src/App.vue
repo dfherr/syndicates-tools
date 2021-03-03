@@ -1,26 +1,10 @@
 <template>
-  <md-app id="app">
-    <md-app-drawer md-permanent="full">
-      <SyndicatesDrawer />
-    </md-app-drawer>
-    <md-app-content>
-      <transition mode="out-in">
-        <router-view />
-      </transition>
-    </md-app-content>
-  </md-app>
+  <img alt="Vue logo" class="element-plus-logo" src="./assets/logo.png" />
+  <HelloWorld msg="Hello Vue 3.0 + Element Plus + Vite" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import SyndicatesDrawer from './components/SyndicatesDrawer.vue'
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    SyndicatesDrawer
-  }
-})
+<script setup>
+import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <style>
@@ -31,5 +15,8 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.element-plus-logo {
+  width: 50%
 }
 </style>
