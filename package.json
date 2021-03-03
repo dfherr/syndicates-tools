@@ -1,0 +1,24 @@
+{
+  "name": "syndicates",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "uuid": "^8.3.2",
+    "vue": "^3.0.5",
+    "vue-material": "^1.0.0-beta-15"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.168",
+    "@types/uuid": "^8.3.0",
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.1.3",
+    "vite": "^2.0.5"
+  }
+}
