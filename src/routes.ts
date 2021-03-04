@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import SyndicatesHomeView from './views/SyndicatesHomeView.vue';
 import SyndicatesResearchView from './views/SyndicatesResearchView.vue';
+import NotFound from './views/NotFound.vue';
 
 export default createRouter({
   history: createWebHistory(),
@@ -14,6 +15,10 @@ export default createRouter({
       path: '/research',
       name: 'research',
       component: SyndicatesResearchView
-    }
+    },
+    {
+      path: "/:catchAll(.*)",
+      component: NotFound,
+    },
   ]
 });
