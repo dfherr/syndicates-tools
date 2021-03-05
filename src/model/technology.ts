@@ -4,13 +4,13 @@ export type Technologies = {
 
 export interface TechnologyTree {
     name: string,
-    levels: [TechnologyTreeLevel],
+    levels: TechnologyTreeLevel[],
 }
 
 export interface TechnologyTreeLevel {
     technologyTree: string,
     level: number,
-    technologies: [Technology],
+    technologies: Technology[],
 }
 
 export interface Technology {
@@ -21,7 +21,7 @@ export interface Technology {
     description: string,
     duration: number,
     networth: number,
-    ranks: [TechnologyRank],
+    ranks: TechnologyRank[],
 }
 
 export interface TechnologyRank {
