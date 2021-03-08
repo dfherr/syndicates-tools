@@ -4,7 +4,7 @@ import SyndicatesUnusedView from './views/SyndicatesUnusedView.vue';
 import NotFound from './views/NotFound.vue';
 
 export default createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
