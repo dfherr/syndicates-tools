@@ -15,35 +15,39 @@
                                 v-bind:key="level.level"
                             >
                                 <div class="levelheader">Stufe {{ level.level + 1 }}</div>
-                                <el-popover
+                                <div
                                     v-for="technology in level.technologies"
                                     :key="technology.name"
-                                    placement="top-start"
-                                    trigger="hover"
-                                    :title="technology.name"
-                                    :width="300"
+                                    class="technology"
+                                    style="position: relative;"
+                                    :class="{ enabled: isTechnologyEnabled(technology) }"
+                                    @click="addTechnologyStep(technology)"
                                 >
-                                    <template #reference>
-                                        <div
-                                            class="technology"
-                                            :class="{ enabled: isTechnologyEnabled(technology) }"
-                                            @click="addTechnologyStep(technology)"
-                                        >
-                                            <span>{{ technology.name }}</span>
-                                        </div>
-                                    </template>
+                                    <span>{{ technology.name }}</span>
+                                    <el-popover
+                                        placement="top-start"
+                                        trigger="click"
+                                        :title="technology.name"
+                                        :width="300"
+                                    >
+                                        <template #reference>
+                                            <span
+                                                style="position: absolute; top: 3px; right: 5px; font-size: 10px; cursor: pointer;"
+                                            >?</span>
+                                        </template>
 
-                                    <b>Dauer:</b>
-                                    {{ technology.duration }} Ticks
-                                    <br />
-                                    <b>Kosten:</b>
-                                    {{ technology.ranks.map(v => v.cost).join(' / ') }} FP
-                                    <br />
-                                    <b>Networth:</b>
-                                    {{ technology.networth }}
-                                    <br />
-                                    {{ technology.description }}
-                                </el-popover>
+                                        <b>Dauer:</b>
+                                        {{ technology.duration }} Ticks
+                                        <br />
+                                        <b>Kosten:</b>
+                                        {{ technology.ranks.map(v => v.cost).join(' / ') }} FP
+                                        <br />
+                                        <b>Networth:</b>
+                                        {{ technology.networth }}
+                                        <br />
+                                        {{ technology.description }}
+                                    </el-popover>
+                                </div>
                             </div>
                         </div>
                     </el-tab-pane>
@@ -300,7 +304,8 @@ const getEvaluatedSteps = () => {
     color: gray;
     border-radius: 4px;
     margin: 2px;
-    padding: 8px;
+    padding: 10px 20px;
+    cursor: default;
 }
 .technology.enabled {
     background: #cfd5e4;
