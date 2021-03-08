@@ -26,8 +26,11 @@
                                     <template #reference>
                                         <div
                                             class="technology"
+                                            :class="{ enabled: isTechnologyEnabled(technology) }"
                                             @click="addTechnologyStep(technology)"
-                                        >{{ technology.name }}</div>
+                                        >
+                                            <span>{{ technology.name }}</span>
+                                        </div>
                                     </template>
 
                                     <b>Dauer:</b>
@@ -69,8 +72,18 @@
                     <el-table-column prop="name" label="Name"></el-table-column>
                     <el-table-column prop="baseTime" label="Basiszeit"></el-table-column>
                     <el-table-column prop="boniTime" label="Zeit mit Boni"></el-table-column>
-                    <el-table-column prop="bonusHours" label="Bonusstunden"></el-table-column>
+                    <el-table-column prop="bonusHours" label="verwendete Bonusstunden"></el-table-column>
                     <el-table-column prop="time" label="Zeit"></el-table-column>
+                    <el-table-column :width="60">
+                        <template #default="scope">
+                            <el-button
+                                icon="el-icon-delete"
+                                size="mini"
+                                circle
+                                @click="removeStep(scope.row)"
+                            ></el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </el-col>
         </el-row>
@@ -82,22 +95,10 @@ import * as vue from 'vue';
 import { TECHNOLOGIES } from '../data/technologies';
 import * as tech from '../model/technology';
 import { v4 as uuidv4 } from 'uuid';
+import * as lodash from 'lodash';
 
 const isSL: vue.Ref<boolean> = vue.ref(false);
 const steps: vue.Ref<tech.ResearchStep[]> = vue.ref([]);
-
-const getCurrentRank = (technology: tech.Technology): number => {
-    let highestRank = -1;
-    for (const step of steps.value) {
-        if (step.type === 'technology'
-            && step.technologyTree == technology.technologyTree
-            && step.level == technology.level
-            && step.name == technology.name) {
-            highestRank = step.rank;
-        }
-    }
-    return highestRank;
-};
 
 const getStepName = (step: tech.ResearchStep): string => {
     if (step.type === 'delay') {
@@ -113,12 +114,73 @@ const getStepName = (step: tech.ResearchStep): string => {
     }
 };
 
-const addTechnologyStep = (technology: tech.Technology) => {
-    const currentRank = getCurrentRank(technology);
+const getCurrentRank = (technology: tech.Technology): number => {
+    let highestRank = -1;
+    for (const step of steps.value) {
+        if (step.type === 'technology'
+            && step.technologyTree == technology.technologyTree
+            && step.level == technology.level
+            && step.name == technology.name) {
+            highestRank = step.rank;
+        }
+    }
+    return highestRank;
+};
+
+const isRequirementPassed = (technology: tech.Technology): boolean => {
+    if (technology.level === 0) {
+        return true;
+    }
+    for (const step of steps.value) {
+        if (step.type === 'technology'
+            && step.technologyTree == technology.technologyTree
+            && step.level == technology.level - 1) {
+            return true;
+        }
+    }
+    return false;
+};
+
+// for levels 2-6 only all but one tech can be researched per tree
+// for level 7 only one tech from any tree can be researched
+const isLevelOversatisfied = (technology: tech.Technology): boolean => {
+    if (technology.level === 0) {
+        return false;
+    } else if (technology.level === 6) {
+        for (const step of steps.value) {
+            if (step.type === 'technology'
+                && step.level === 6
+                && step.name !== technology.name) {
+                return true;
+            }
+        }
+        return false;
+    } else {
+        const levelTechnologiesAmount = lodash.size(TECHNOLOGIES[technology.technologyTree].levels[technology.level].technologies);
+        const otherResearchedTechsInSameTree = new Set();
+        for (const step of steps.value) {
+            if (step.type === 'technology'
+                && step.technologyTree === technology.technologyTree
+                && step.level === technology.level
+                && step.name !== technology.name) {
+                otherResearchedTechsInSameTree.add(step.name);
+            }
+        }
+        return otherResearchedTechsInSameTree.size >= levelTechnologiesAmount - 1;
+    }
+};
+
+const isTechnologyEnabled = (technology: tech.Technology): boolean => {
+    let currentRank = getCurrentRank(technology);
     const amountOfRanks = technology.ranks.length;
-    if (currentRank + 1 >= amountOfRanks) {
+    return currentRank + 1 < amountOfRanks && isRequirementPassed(technology) && !isLevelOversatisfied(technology);
+};
+
+const addTechnologyStep = (technology: tech.Technology) => {
+    if (!isTechnologyEnabled(technology)) {
         return;
     }
+    const currentRank = getCurrentRank(technology);
     const step: tech.ResearchStep = {
         type: 'technology',
         uuid: uuidv4(),
@@ -150,6 +212,10 @@ const clearSteps = () => {
     steps.value = [];
 }
 
+const removeStep = (step: tech.ResearchStep) => {
+    steps.value = steps.value.filter(v => v.uuid != step.uuid);
+}
+
 const getEvaluatedSteps = () => {
     const evaluatedSteps = [];
 
@@ -160,6 +226,7 @@ const getEvaluatedSteps = () => {
     for (const step of steps.value) {
         if (step.type === 'delay') {
             evaluatedSteps.push({
+                uuid: step.uuid,
                 name: getStepName(step),
                 baseTime: step.duration,
                 boniTime: step.duration,
@@ -197,6 +264,7 @@ const getEvaluatedSteps = () => {
             }
 
             evaluatedSteps.push({
+                uuid: step.uuid,
                 name: getStepName(step),
                 baseTime: technology.duration,
                 boniTime: boniTime,
@@ -208,12 +276,6 @@ const getEvaluatedSteps = () => {
 
     return evaluatedSteps;
 }
-
-// const getSummaries = () => {
-//     const column = [];
-
-//     return columns;
-// }
 </script>
 
 <style>
@@ -227,16 +289,25 @@ const getEvaluatedSteps = () => {
     flex-direction: column;
 }
 .levelheader {
-    background: #99a9bf;
+    background: #545c64;
+    color: white;
     border-radius: 4px;
     margin: 2px;
     padding: 8px;
 }
 .technology {
-    background: #e5e9f2;
+    background: #eef0f5;
+    color: gray;
     border-radius: 4px;
     margin: 2px;
     padding: 8px;
+}
+.technology.enabled {
+    background: #cfd5e4;
+    color: black;
+}
+.technology.enabled:hover {
+    cursor: pointer;
 }
 
 .el-row {
