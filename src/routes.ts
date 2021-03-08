@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import SyndicatesHomeView from './views/SyndicatesHomeView.vue';
 import SyndicatesResearchView from './views/SyndicatesResearchView.vue';
+import SyndicatesUnusedView from './views/SyndicatesUnusedView.vue';
 import NotFound from './views/NotFound.vue';
 
 export default createRouter({
@@ -9,12 +9,17 @@ export default createRouter({
     {
       path: '/',
       name: 'home',
-      component: SyndicatesHomeView
+      redirect: 'research',
     },
     {
       path: '/research',
       name: 'research',
       component: SyndicatesResearchView
+    },
+    {
+      path: '/unused',
+      name: 'unused',
+      component: SyndicatesUnusedView
     },
     {
       path: "/:catchAll(.*)",

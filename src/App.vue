@@ -1,12 +1,24 @@
 <template>
   <el-container>
     <el-header>
-      <span style="font-size: 30px">Syndicates</span>
+      <span style="font-size: 30px; float: left;">Syndicates</span>
+
+      <el-menu
+        style="float: right;"
+        mode="horizontal"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        :router="true"
+        :default-active="$route.path"
+      >
+        <el-menu-item :route="{ name: 'research' }">
+          <i class="el-icon-setting"></i>
+          <span>Forschung</span>
+        </el-menu-item>
+      </el-menu>
     </el-header>
     <el-container>
-      <el-aside>
-        <MainMenu />
-      </el-aside>
       <el-container>
         <el-main>
           <router-view v-slot="{ Component }">
@@ -20,8 +32,7 @@
   </el-container>
 </template>
 
-<script setup>
-import MainMenu from './components/MainMenu.vue';
+<script setup lang="ts">
 </script>
 
 <style>
@@ -31,8 +42,8 @@ body {
 }
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
+  background-color: #545c64;
+  color: #ffd04b;
   text-align: center;
   line-height: 60px;
 }
