@@ -1,25 +1,7 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="4">
-                <el-button type="primary" plain @click="addDelayStep">Pause einfügen</el-button>
-            </el-col>
-            <el-col :span="4">
-                <el-checkbox v-model="isSL">Shadow Labs</el-checkbox>
-            </el-col>
-            <el-col :span="8">Gesamtdauer: {{ calculateTotalTime() }} Ticks</el-col>
-        </el-row>
-
-        <el-row>
-            <el-col :span="4">
-                <div
-                    class="technology"
-                    v-for="step in steps"
-                    :key="step.uuid"
-                >{{ getStepName(step) }}</div>
-            </el-col>
-
-            <el-col :span="20">
+            <el-col>
                 <el-tabs type="border-card">
                     <el-tab-pane
                         v-for="tree in TECHNOLOGIES"
@@ -65,6 +47,33 @@
                 </el-tabs>
             </el-col>
         </el-row>
+
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <el-divider direction="vertical"></el-divider>
+            <el-checkbox v-model="isSL">Shadow Labs</el-checkbox>
+            <el-divider direction="vertical"></el-divider>
+            <el-button type="primary" plain @click="addDelayStep">Verzögerung einfügen</el-button>
+            <el-button type="primary" plain @click="clearSteps">Alles entfernen</el-button>
+            <el-divider direction="vertical"></el-divider>
+        </div>
+
+        <el-row>
+            <el-col>
+                <el-table
+                    :data="getEvaluatedSteps()"
+                    border
+                    sum-text="Gesamt"
+                    show-summary
+                    style="width: 100%"
+                >
+                    <el-table-column prop="name" label="Name"></el-table-column>
+                    <el-table-column prop="baseTime" label="Basiszeit"></el-table-column>
+                    <el-table-column prop="boniTime" label="Zeit mit Boni"></el-table-column>
+                    <el-table-column prop="bonusHours" label="Bonusstunden"></el-table-column>
+                    <el-table-column prop="time" label="Zeit"></el-table-column>
+                </el-table>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -92,7 +101,7 @@ const getCurrentRank = (technology: tech.Technology): number => {
 
 const getStepName = (step: tech.ResearchStep): string => {
     if (step.type === 'delay') {
-        return `${step.duration} Ticks Pause`;
+        return `Verzögerung`;
     } else {
         const technology = TECHNOLOGIES[step.technologyTree].levels[step.level].technologies[step.name];
         const amountOfRanks = technology.ranks.length;
@@ -137,28 +146,46 @@ const addDelayStep = () => {
     console.log(`Delay added`);
 };
 
-const calculateTotalTime = (): number => {
-    let isMotiResearched = false;
+const clearSteps = () => {
+    steps.value = [];
+}
+
+const getEvaluatedSteps = () => {
+    const evaluatedSteps = [];
+
     let totalTime = 0;
+    let isMotiResearched = false;
     let bonusHours = 45;
 
     for (const step of steps.value) {
         if (step.type === 'delay') {
-            totalTime += step.duration;
+            evaluatedSteps.push({
+                name: getStepName(step),
+                baseTime: step.duration,
+                boniTime: step.duration,
+                bonusHours: 0,
+                time: step.duration,
+            });
         } else {
             const technology = TECHNOLOGIES[step.technologyTree].levels[step.level].technologies[step.name];
             const factor = 1 - (isMotiResearched ? 0.25 : 0) - (isSL.value ? 0.25 : 0);
-            let researchTime = technology.duration * factor;
+            const boniTime = technology.duration * factor;
 
-            const maxInitialBonusUsage = researchTime <= 4 ? 0 : Math.min(bonusHours, researchTime - 1);
-            researchTime -= maxInitialBonusUsage;
+            const bonusHoursAllowed = technology.duration > 4;
+            const maxInitialBonusUsage = bonusHoursAllowed ? Math.min(bonusHours, boniTime - 1) : 0;
+            const timeAfterInitialBonusHours = boniTime - maxInitialBonusUsage;
             bonusHours -= maxInitialBonusUsage;
 
-            for (let i = researchTime; i >= 1; i--) {
-                if (bonusHours > 0 && i > 1) {
+            let actualTicks = 0;
+            let usedBonusHours = maxInitialBonusUsage;
+
+            for (let i = timeAfterInitialBonusHours; i >= 1; i--) {
+                if (bonusHours > 0 && i > 1 && bonusHoursAllowed) {
                     bonusHours -= 1;
-                    researchTime -= 1;
+                    i -= 1;
+                    usedBonusHours += 1;
                 }
+                actualTicks += 1;
                 totalTime += 1;
                 if (totalTime % 24 === 0) {
                     bonusHours += 1;
@@ -168,11 +195,25 @@ const calculateTotalTime = (): number => {
             if (technology.name === 'Motivationsprogramm für deprimierte Wissenschaftler') {
                 isMotiResearched = true;
             }
+
+            evaluatedSteps.push({
+                name: getStepName(step),
+                baseTime: technology.duration,
+                boniTime: boniTime,
+                bonusHours: usedBonusHours,
+                time: actualTicks,
+            });
         }
     }
 
-    return totalTime;
-};
+    return evaluatedSteps;
+}
+
+// const getSummaries = () => {
+//     const column = [];
+
+//     return columns;
+// }
 </script>
 
 <style>
@@ -196,5 +237,9 @@ const calculateTotalTime = (): number => {
     border-radius: 4px;
     margin: 2px;
     padding: 8px;
+}
+
+.el-row {
+    margin-bottom: 10px;
 }
 </style>
