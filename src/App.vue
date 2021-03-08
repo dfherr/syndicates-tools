@@ -1,8 +1,12 @@
 <template>
   <el-container>
-    <el-header><span style="font-size: 30px">Syndicates</span></el-header>
+    <el-header>
+      <span style="font-size: 30px">Syndicates</span>
+    </el-header>
     <el-container>
-      <el-aside><MainMenu /></el-aside>
+      <el-aside>
+        <MainMenu />
+      </el-aside>
       <el-container>
         <el-main>
           <router-view v-slot="{ Component }">
@@ -17,42 +21,43 @@
 </template>
 
 <script setup>
-  import MainMenu from './components/MainMenu.vue';
+import MainMenu from './components/MainMenu.vue';
 </script>
 
 <style>
 body {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
-.el-header, .el-footer {
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
+.el-header,
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
 
-  .el-aside {
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
+.el-aside {
+  color: #333;
+  text-align: center;
+}
 
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-  }
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+}
 
-  body > .el-container {
-    margin-bottom: 40px;
-  }
+body > .el-container {
+  margin-bottom: 40px;
+}
 
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-  }
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+  line-height: 260px;
+}
 
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-  }
+.el-container:nth-child(7) .el-aside {
+  line-height: 320px;
+}
 </style>

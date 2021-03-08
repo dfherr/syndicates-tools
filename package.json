@@ -9,12 +9,14 @@
   "dependencies": {
     "element-plus": "latest",
     "lodash": "^4.17.21",
+    "uuid": "^8.3.2",
     "vue": "^3.0.5",
     "vue-router": "^4.0.4"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
+    "@types/uuid": "^8.3.0",
     "@vitejs/plugin-vue": "^1.0.4",
     "@vue/compiler-sfc": "^3.0.5",
     "https": "^1.0.0",

@@ -33,7 +33,7 @@ async function importTechnologyTreeLevel(table, level, technologyTree) {
     return {
         technologyTree,
         level,
-        technologies,
+        technologies: _.keyBy(technologies, 'name'),
     };
 }
 async function importTechnology(url, level, technologyTree) {

@@ -37,7 +37,7 @@ async function importTechnologyTreeLevel(table: any, level: number, technologyTr
     return {
         technologyTree,
         level,
-        technologies,
+        technologies: _.keyBy(technologies, 'name'),
     }
 }
 

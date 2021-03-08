@@ -10,7 +10,7 @@ export interface TechnologyTree {
 export interface TechnologyTreeLevel {
     technologyTree: string,
     level: number,
-    technologies: Technology[],
+    technologies: { [name: string]: Technology },
 }
 
 export interface Technology {
@@ -30,4 +30,17 @@ export interface TechnologyRank {
     name: string,
     rank: number,
     cost: number,
+}
+
+export type ResearchStep = {
+    type: 'delay',
+    uuid: string,
+    duration: number,
+} | {
+    type: 'technology',
+    uuid: string,
+    technologyTree: string,
+    level: number,
+    name: string,
+    rank: number,
 }
