@@ -1,5 +1,6 @@
 <script>
-    const path = window.location.pathname.slice(1);
+    const baseUrl = '/syndicates';
+    const path = window.location.pathname.substring(baseUrl.length);
     localStorage.setItem('path', path);
-    window.location.href = '../';
+    window.location.href = '..' + baseUrl;
 </script>
