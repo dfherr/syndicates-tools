@@ -60,6 +60,7 @@
             <el-divider direction="vertical"></el-divider>
             <el-button type="primary" plain @click="addDelayStep">Verzögerung einfügen</el-button>
             <el-button type="primary" plain @click="clearSteps">Alles entfernen</el-button>
+            <el-button type="primary" plain @click="downloadCSV">CSV Export</el-button>
             <el-divider direction="vertical"></el-divider>
             <div>
                 <span>Rundenbeginn:</span>
@@ -301,6 +302,31 @@ const getEvaluatedSteps = () => {
 
     return evaluatedSteps;
 }
+
+const downloadCSV = () => {
+    const separator = ';';
+    const data = getEvaluatedSteps();
+    let sumBaseTicks = 0;
+    let sumBoniTicks = 0;
+    let sumBonusHours = 0;
+    let sumTicks = 0;
+    const rows = [['"Name"', '"Basisticks"', '"Ticks mit Boni"', '"verwendete Bonusstunden"', '"Ticks"', '"Zeit"'].join(separator)];
+    for (const v of data) {
+        sumBaseTicks += v.baseTicks;
+        sumBoniTicks += v.boniTicks;
+        sumBonusHours += v.bonusHours;
+        sumTicks += v.ticks;
+        rows.push([`"${v.name}"`, v.baseTicks, v.boniTicks, v.bonusHours, v.ticks, `"${v.time}"`].join(separator));
+    }
+    rows.push(['"Gesamt"', sumBaseTicks, sumBoniTicks, sumBonusHours, sumTicks, '""'].join(separator));
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + rows.join('\n');
+
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", "export.csv");
+    link.click();
+};
 </script>
 
 <style>
