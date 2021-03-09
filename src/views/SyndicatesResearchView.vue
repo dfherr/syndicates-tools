@@ -56,12 +56,20 @@
         </el-row>
 
         <div style="display: flex; align-items: center; margin-bottom: 10px;">
-            <el-divider direction="vertical"></el-divider>
             <el-checkbox v-model="isSL">Shadow Labs</el-checkbox>
             <el-divider direction="vertical"></el-divider>
             <el-button type="primary" plain @click="addDelayStep">Verzögerung einfügen</el-button>
             <el-button type="primary" plain @click="clearSteps">Alles entfernen</el-button>
             <el-divider direction="vertical"></el-divider>
+            <div>
+                <span>Rundenbeginn:</span>
+                <el-date-picker
+                    v-model="roundStart"
+                    type="datetime"
+                    format="DD.MM.YYYY HH:mm"
+                    :clearable="false"
+                ></el-date-picker>
+            </div>
         </div>
 
         <el-row>
@@ -74,9 +82,10 @@
                     style="width: 100%"
                 >
                     <el-table-column prop="name" label="Name"></el-table-column>
-                    <el-table-column prop="baseTime" label="Basiszeit"></el-table-column>
-                    <el-table-column prop="boniTime" label="Zeit mit Boni"></el-table-column>
+                    <el-table-column prop="baseTicks" label="Basisticks"></el-table-column>
+                    <el-table-column prop="boniTicks" label="Ticks mit Boni"></el-table-column>
                     <el-table-column prop="bonusHours" label="verwendete Bonusstunden"></el-table-column>
+                    <el-table-column prop="ticks" label="Ticks"></el-table-column>
                     <el-table-column prop="time" label="Zeit"></el-table-column>
                     <el-table-column :width="60">
                         <template #default="scope">
@@ -100,9 +109,18 @@ import { TECHNOLOGIES } from '../data/technologies';
 import * as tech from '../model/technology';
 import { v4 as uuidv4 } from 'uuid';
 import * as lodash from 'lodash';
+import moment from 'moment';
 
 const isSL: vue.Ref<boolean> = vue.ref(false);
 const steps: vue.Ref<tech.ResearchStep[]> = vue.ref([]);
+
+const roundLengthInWeeks = 7;
+const startTime = 14;
+const referenceStart = moment("2021-03-14 14:00");
+let roundStart = vue.ref(referenceStart);
+while (roundStart.value.isBefore(moment())) {
+    roundStart.value.add(roundLengthInWeeks, 'weeks').startOf('day').add(startTime, 'hours');
+}
 
 const getStepName = (step: tech.ResearchStep): string => {
     if (step.type === 'delay') {
@@ -229,13 +247,15 @@ const getEvaluatedSteps = () => {
 
     for (const step of steps.value) {
         if (step.type === 'delay') {
+            totalTime += step.duration;
             evaluatedSteps.push({
                 uuid: step.uuid,
                 name: getStepName(step),
-                baseTime: step.duration,
-                boniTime: step.duration,
+                baseTicks: step.duration,
+                boniTicks: step.duration,
                 bonusHours: 0,
-                time: step.duration,
+                ticks: step.duration,
+                time: roundStart.value.clone().add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
             });
         } else {
             const technology = TECHNOLOGIES[step.technologyTree].levels[step.level].technologies[step.name];
@@ -270,10 +290,11 @@ const getEvaluatedSteps = () => {
             evaluatedSteps.push({
                 uuid: step.uuid,
                 name: getStepName(step),
-                baseTime: technology.duration,
-                boniTime: boniTime,
+                baseTicks: technology.duration,
+                boniTicks: boniTime,
                 bonusHours: usedBonusHours,
-                time: actualTicks,
+                ticks: actualTicks,
+                time: roundStart.value.clone().add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
             });
         }
     }
