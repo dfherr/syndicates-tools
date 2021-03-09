@@ -40,6 +40,7 @@ onMounted(() => {
   const router = useRouter();
   const path = localStorage.getItem('path');
   if (path) {
+    console.log('Navigate to:', path)
     localStorage.removeItem('path');
     router.push({ path });
   }
