@@ -33,6 +33,17 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from '@vue/runtime-core';
+import { useRouter } from 'vue-router';
+
+onMounted(() => {
+  const router = useRouter();
+  const path = localStorage.getItem('path');
+  if (path) {
+    localStorage.removeItem('path');
+    router.push({ path });
+  }
+});
 </script>
 
 <style>
