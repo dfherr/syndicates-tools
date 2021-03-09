@@ -118,10 +118,11 @@ const steps: vue.Ref<tech.ResearchStep[]> = vue.ref([]);
 const roundLengthInWeeks = 7;
 const startTime = 14;
 const referenceStart = moment("2021-03-14 14:00");
-let roundStart = vue.ref(referenceStart);
-while (roundStart.value.isBefore(moment())) {
-    roundStart.value.add(roundLengthInWeeks, 'weeks').startOf('day').add(startTime, 'hours');
+let roundStartMoment = referenceStart;
+while (roundStartMoment.isBefore(moment())) {
+    roundStartMoment.add(roundLengthInWeeks, 'weeks').startOf('day').add(startTime, 'hours');
 }
+const roundStart = vue.ref(roundStartMoment.toDate());
 
 const getStepName = (step: tech.ResearchStep): string => {
     if (step.type === 'delay') {
@@ -256,7 +257,7 @@ const getEvaluatedSteps = () => {
                 boniTicks: step.duration,
                 bonusHours: 0,
                 ticks: step.duration,
-                time: roundStart.value.clone().add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
+                time: moment(roundStart.value).add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
             });
         } else {
             const technology = TECHNOLOGIES[step.technologyTree].levels[step.level].technologies[step.name];
@@ -295,7 +296,7 @@ const getEvaluatedSteps = () => {
                 boniTicks: boniTime,
                 bonusHours: usedBonusHours,
                 ticks: actualTicks,
-                time: roundStart.value.clone().add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
+                time: moment(roundStart.value).add(totalTime, 'hours').format('DD.MM.YYYY HH:mm'),
             });
         }
     }
