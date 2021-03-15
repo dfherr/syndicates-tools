@@ -250,6 +250,7 @@ const getEvaluatedSteps = () => {
     for (const step of steps.value) {
         if (step.type === 'delay') {
             totalTime += step.duration;
+            bonusHours = Math.min(48, bonusHours + step.duration);
             evaluatedSteps.push({
                 uuid: step.uuid,
                 name: getStepName(step),
