@@ -12,9 +12,13 @@
         :router="true"
         :default-active="$route.path"
       >
-        <el-menu-item :route="{ name: 'research' }">
+        <el-menu-item index="/research" :route="{ name: 'research' }">
           <i class="el-icon-setting"></i>
           <span>Forschung</span>
+        </el-menu-item>
+        <el-menu-item index="/espionage" :route="{ name: 'espionage' }">
+          <i class="el-icon-camera"></i>
+          <span>Spionage</span>
         </el-menu-item>
       </el-menu>
     </el-header>
@@ -66,7 +70,6 @@ body {
 }
 
 .el-main {
-  background-color: #e9eef3;
   color: #333;
   text-align: center;
 }

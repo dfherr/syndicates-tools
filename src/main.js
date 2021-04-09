@@ -4,4 +4,7 @@ import ElementPlus from 'element-plus';
 import routes from './routes';
 import '../element-variables.scss'
 
-createApp(App).use(routes).use(ElementPlus).mount('#app');
+createApp(App)
+    .use(routes)
+    .use(ElementPlus)
+    .mount('#app');
