@@ -124,6 +124,18 @@ while (roundStartMoment.isBefore(moment())) {
 }
 const roundStart = vue.ref(roundStartMoment.toDate());
 
+const localStorageSteps = JSON.parse(localStorage.getItem("research.steps") || "{}");
+lodash.merge(steps.value, localStorageSteps);
+const localStorageIsSL = localStorage.getItem("research.isSL");
+if (localStorageIsSL) {
+    isSL.value = JSON.parse(localStorageIsSL);
+}
+
+vue.watchEffect(() => {
+    localStorage.setItem("research.steps", JSON.stringify(steps.value));
+    localStorage.setItem("research.isSL", JSON.stringify(isSL.value));
+});
+
 const getStepName = (step: tech.ResearchStep): string => {
     if (step.type === 'delay') {
         return `Verzögerung`;
