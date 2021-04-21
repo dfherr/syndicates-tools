@@ -65,15 +65,30 @@
                     <h5>Einheiten</h5>
                     <el-form-item label="Agents" prop="agents">
                         <el-input-number v-model="player.units.agents" v-bind:min="0"></el-input-number>
-                        <el-button icon="el-icon-top" circle v-on:click="setMaxUnits('agents')"></el-button>
+                        <el-button
+                            icon="el-icon-top"
+                            circle
+                            :type="unitButtonHighlight"
+                            v-on:click="setMaxUnits('agents')"
+                        ></el-button>
                     </el-form-item>
                     <el-form-item label="Thiefs" prop="thiefs">
                         <el-input-number v-model="player.units.thiefs" v-bind:min="0"></el-input-number>
-                        <el-button icon="el-icon-top" circle v-on:click="setMaxUnits('thiefs')"></el-button>
+                        <el-button
+                            icon="el-icon-top"
+                            circle
+                            :type="unitButtonHighlight"
+                            v-on:click="setMaxUnits('thiefs')"
+                        ></el-button>
                     </el-form-item>
                     <el-form-item label="Guards" prop="guards">
                         <el-input-number v-model="player.units.guards" v-bind:min="0"></el-input-number>
-                        <el-button icon="el-icon-top" circle v-on:click="setMaxUnits('guards')"></el-button>
+                        <el-button
+                            icon="el-icon-top"
+                            circle
+                            :type="unitButtonHighlight"
+                            v-on:click="setMaxUnits('guards')"
+                        ></el-button>
                     </el-form-item>
 
                     <h5>Partnerboni</h5>
@@ -175,7 +190,7 @@
 <script lang="ts">
 import * as general from '../model/general';
 import * as espionage from '../model/espionage';
-import { defineComponent, PropType, watchEffect } from '@vue/runtime-core';
+import { computed, defineComponent, PropType, ref, watchEffect } from '@vue/runtime-core';
 import lodash from 'lodash';
 
 export default defineComponent({
@@ -197,10 +212,22 @@ export default defineComponent({
             player.points.dp = commonPoints + player.units.guards + player.research.CTP * 18 * player.land;
         });
 
+        const unitButtonHighlight = ref('primary');
+        watchEffect(() => {
+            const player = props.player;
+            const emptyPlayer = lodash.omit(espionage.createEmptyPlayer(), 'units');
+            const playerWithoutUnits = lodash.omit(player, 'units');
+            const isAnythingSet = !lodash.isEqual(playerWithoutUnits, emptyPlayer);
+            const isAnyUnitSet = player.units.agents > 0 || player.units.thiefs > 0 || player.units.guards > 0;
+            const isHighlightButton = isAnythingSet && !isAnyUnitSet;
+            unitButtonHighlight.value = isHighlightButton ? 'primary' : 'default';
+        });
+
         const loadReportTooltip = "Zieht Informationen aus Spionageberichten:<ul><li>Berichte zu Konzern in Spionage-DB auswählen</li><li>Alle aufklappen</li><li>Gesamte Seite auswählen (Strg+A) und kopieren (Strg+C)</li><li>\"Berichte laden\" klicken</li></ul>";
 
         return {
             FACTIONS: general.Faction,
+            unitButtonHighlight,
             loadReportTooltip,
         };
     },
