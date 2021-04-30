@@ -206,9 +206,9 @@ export default defineComponent({
         watchEffect(() => {
             const player = props.player;
             const unitsTotal = player.units.agents + player.units.thiefs + player.units.guards;
-            const commonPoints = (1 + 0.5 * player.research.II) * unitsTotal;
+            const commonPoints = unitsTotal;
 
-            player.points.ip = commonPoints + player.units.agents + player.research.CTP * 18 * player.land + (player.partnerBoni.plusIPSpione ? 0.5 : 0) * unitsTotal;
+            player.points.ip = commonPoints + player.units.agents + player.research.CTP * 18 * player.land + (0.5 * player.research.II + (player.partnerBoni.plusIPSpione ? 0.5 : 0)) * unitsTotal;
             player.points.op = commonPoints + player.units.thiefs + player.research.CTP * 12 * player.land;
             player.points.dp = commonPoints + player.units.guards + player.research.CTP * 18 * player.land;
         });
