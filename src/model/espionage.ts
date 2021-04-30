@@ -41,7 +41,7 @@ export interface EspionagePlayerResearch {
 export interface EspionagePlayerPartnerBoni {
     kapazitaet: boolean,
     spionagestaerke: boolean,
-    plusIPSpiopne: boolean,
+    plusIPSpione: boolean,
 }
 
 export const DIFFICULTY = {
@@ -86,7 +86,7 @@ export function createEmptyPlayer(): EspionagePlayer {
         partnerBoni: {
             kapazitaet: false,
             spionagestaerke: false,
-            plusIPSpiopne: false,
+            plusIPSpione: false,
         },
         points: {
             ip: 0,

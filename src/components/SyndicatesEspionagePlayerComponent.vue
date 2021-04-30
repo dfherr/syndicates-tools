@@ -100,9 +100,9 @@
                             v-model="player.partnerBoni.spionagestaerke"
                         >+10% Spionagestärke</el-checkbox>
                     </el-form-item>
-                    <el-form-item label prop="plusIPSpiopne" style="text-align: left;">
+                    <el-form-item label prop="plusIPSpione" style="text-align: left;">
                         <el-checkbox
-                            v-model="player.partnerBoni.plusIPSpiopne"
+                            v-model="player.partnerBoni.plusIPSpione"
                         >Alle Spione erhalten +0,5 IP</el-checkbox>
                     </el-form-item>
                 </el-form>
@@ -205,9 +205,10 @@ export default defineComponent({
     setup(props) {
         watchEffect(() => {
             const player = props.player;
-            const commonPoints = (1 + 0.5 * player.research.II + (player.partnerBoni.plusIPSpiopne ? 0.5 : 0)) * (player.units.agents + player.units.thiefs + player.units.guards);
+            const unitsTotal = player.units.agents + player.units.thiefs + player.units.guards;
+            const commonPoints = (1 + 0.5 * player.research.II) * unitsTotal;
 
-            player.points.ip = commonPoints + player.units.agents + player.research.CTP * 18 * player.land;
+            player.points.ip = commonPoints + player.units.agents + player.research.CTP * 18 * player.land + (player.partnerBoni.plusIPSpione ? 0.5 : 0) * unitsTotal;
             player.points.op = commonPoints + player.units.thiefs + player.research.CTP * 12 * player.land;
             player.points.dp = commonPoints + player.units.guards + player.research.CTP * 18 * player.land;
         });
@@ -276,7 +277,7 @@ export default defineComponent({
             const partnerBoniMapping: Record<string, keyof espionage.EspionagePlayerPartnerBoni> = {
                 "Die Kapazität von Lagerhallen und Hauptquartieren (BF) wird für Militäreinheiten um 1 erhöht. Die Kapazität von Spionageeinrichtungen wird für Spionageeinheiten um 1 erhöht.": "kapazitaet",
                 "+10% Spionagestärke": "spionagestaerke",
-                "Alle Spione erhalten +0,5 IP (Aufklärung)": "plusIPSpiopne",
+                "Alle Spione erhalten +0,5 IP (Aufklärung)": "plusIPSpione",
             }
 
             const number = "([0-9.]+)";
