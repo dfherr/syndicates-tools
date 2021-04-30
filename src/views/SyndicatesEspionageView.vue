@@ -73,7 +73,7 @@ const calculateSuccessProbability = (operation: espionage.Operation, extraOps: n
     // console.log(attackerPointsPerLand, defenderPointsPerLand);
 
     attackerPointsPerLand *= 1 + (!operation.isEspionage && attacker.value.faction === general.Faction.SL ? 0.3 : 0) + 0.1 * attacker.value.research.HN + (attacker.value.partnerBoni.spionagestaerke ? 0.1 : 0);
-    defenderPointsPerLand *= 1 + (operation.isEspionage && defender.value.research.SpyWeb === 3 ? 0.2 : 0);
+    defenderPointsPerLand *= 1 + (operation.isEspionage && defender.value.research.SpyWeb === 3 ? 0.2 : 0) + (!operation.isEspionage ? 0.09 * defender.value.research.ISSDN_Syn : 0);
     // console.log(attackerPointsPerLand, defenderPointsPerLand);
 
     defenderPointsPerLand *= espionage.DIFFICULTY[operation.difficulty];

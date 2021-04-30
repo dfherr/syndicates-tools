@@ -145,6 +145,13 @@
                             v-bind:max="3"
                         ></el-input-number>
                     </el-form-item>
+                    <el-form-item label="ISSDN (Syn)" prop="ISSDN_Syn">
+                        <el-input-number
+                            v-model="player.research.ISSDN_Syn"
+                            v-bind:min="0"
+                            v-bind:max="10"
+                        ></el-input-number>
+                    </el-form-item>
                     <el-form-item label="IS" prop="IS">
                         <el-input-number v-model="player.research.IS" v-bind:min="0" v-bind:max="3"></el-input-number>
                     </el-form-item>

@@ -34,6 +34,7 @@ export interface EspionagePlayerResearch {
     HN: number,
     IT: number,
     ISSDN: number,
+    ISSDN_Syn: number,
     IS: number,
     CTP: number,
 }
@@ -80,6 +81,7 @@ export function createEmptyPlayer(): EspionagePlayer {
             HN: 0,
             IT: 0,
             ISSDN: 0,
+            ISSDN_Syn: 10,
             IS: 0,
             CTP: 0,
         },
