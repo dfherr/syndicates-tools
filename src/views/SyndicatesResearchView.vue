@@ -308,28 +308,33 @@ const clearSteps = () => {
 
 const loadReport = () => {
   clearSteps();
-  navigator.clipboard.readText().then(clipText => {
-    const lines = (clipText || "").split("\n");
-    nextLine: for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
-        for (const tree in TECHNOLOGIES) {
-          for(const level of TECHNOLOGIES[tree].levels){
-            for(const technology in level.technologies){
-             //console.log(technology);
-              const match = line.match(technology + "\\s+Stufe ([1-3])");
-              if (match) {
-                const researchedLevels = Number(match[1]);
-                console.log(`Added '${technology} Stufe ${researchedLevels}'`)
-                for(let j = 0; j < researchedLevels; j++){
-                  addTechnologyStep(level.technologies[technology]);
+  navigator.permissions.query({ name: "clipboard-read" }).then((result) => {
+    if (result.state == "granted" || result.state == "prompt") {
+      navigator.clipboard.readText().then(clipText => {
+        const lines = (clipText || "").split("\n");
+        nextLine: for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            for (const tree in TECHNOLOGIES) {
+              for(const level of TECHNOLOGIES[tree].levels){
+                for(const technology in level.technologies){
+                //console.log(technology);
+                  const match = line.match(technology + "\\s+Stufe ([1-3])");
+                  if (match) {
+                    const researchedLevels = Number(match[1]);
+                    console.log(`Added '${technology} Stufe ${researchedLevels}'`)
+                    for(let j = 0; j < researchedLevels; j++){
+                      addTechnologyStep(level.technologies[technology]);
+                    }
+                    continue nextLine;
+                  }
                 }
-                continue nextLine;
               }
             }
-          }
         }
+      });
     }
   });
+  
 }
 
 const getEvaluatedSteps = () => {

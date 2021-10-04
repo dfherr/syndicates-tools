@@ -2,7 +2,6 @@
   <el-container>
     <el-header>
       <span style="font-size: 30px; float: left;">Syndicates</span>
-
       <el-menu
         style="float: right;"
         mode="horizontal"
@@ -23,7 +22,6 @@
       </el-menu>
     </el-header>
     <el-container>
-      <el-container>
         <el-main>
           <router-view v-slot="{ Component }">
             <transition>
@@ -31,7 +29,6 @@
             </transition>
           </router-view>
         </el-main>
-      </el-container>
     </el-container>
   </el-container>
 </template>
