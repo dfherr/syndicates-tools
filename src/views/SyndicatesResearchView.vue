@@ -75,7 +75,7 @@
                 <template #reference>
                         <el-button
                             type="primary" plain @click="loadReport"
-                        >Berichte laden</el-button>
+                        >Bericht laden</el-button>
                 </template>
                 <p>Spionagebericht zuerst in zwischenablage kopieren (Strg+C). Achtung: Entfernt die aktuelle Liste.</p>
       </el-popover>
