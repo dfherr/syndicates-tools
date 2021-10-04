@@ -71,6 +71,14 @@
       <el-button type="primary" plain @click="clearSteps"
         >Alles entfernen</el-button
       >
+      <el-popover placement="right-start" title :width="420" trigger="hover">
+                <template #reference>
+                        <el-button
+                            type="primary" plain @click="loadReport"
+                        >Berichte laden</el-button>
+                </template>
+                <p>Spionagebericht zuerst in zwischenablage kopieren (Strg+C). Achtung: Entfernt die aktuelle Liste.</p>
+      </el-popover>
       <el-button type="primary" plain @click="downloadCSV"
         >CSV Export</el-button
       >
@@ -140,8 +148,9 @@ const steps: vue.Ref<tech.ResearchStep[]> = vue.ref([]);
 const roundLengthInWeeks = 7;
 const startTime = 14;
 const referenceStart = moment("2021-03-14 14:00");
+const sixWeeksAgo = moment().subtract(6, "weeks");
 let roundStartMoment = referenceStart;
-while (roundStartMoment.isBefore(moment())) {
+while (roundStartMoment.isBefore(sixWeeksAgo)) {
   roundStartMoment
     .add(roundLengthInWeeks, "weeks")
     .startOf("day")
@@ -274,6 +283,10 @@ const addTechnologyStep = (technology: tech.Technology) => {
   console.log(`'${getStepName(step)}' selected`);
 };
 
+const removeStep = (step: tech.ResearchStep) => {
+  steps.value = steps.value.filter((v) => v.uuid != step.uuid);
+};
+
 const addDelayStep = () => {
   const lastStep = steps.value[steps.value.length - 1];
   if (lastStep !== undefined && lastStep.type === "delay") {
@@ -293,9 +306,31 @@ const clearSteps = () => {
   steps.value = [];
 };
 
-const removeStep = (step: tech.ResearchStep) => {
-  steps.value = steps.value.filter((v) => v.uuid != step.uuid);
-};
+const loadReport = () => {
+  clearSteps();
+  navigator.clipboard.readText().then(clipText => {
+    const lines = (clipText || "").split("\n");
+    nextLine: for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        for (const tree in TECHNOLOGIES) {
+          for(const level of TECHNOLOGIES[tree].levels){
+            for(const technology in level.technologies){
+             //console.log(technology);
+              const match = line.match(technology + "\\s+Stufe ([1-3])");
+              if (match) {
+                const researchedLevels = Number(match[1]);
+                console.log(`Added '${technology} Stufe ${researchedLevels}'`)
+                for(let j = 0; j < researchedLevels; j++){
+                  addTechnologyStep(level.technologies[technology]);
+                }
+                continue nextLine;
+              }
+            }
+          }
+        }
+    }
+  });
+}
 
 const getEvaluatedSteps = () => {
   const evaluatedSteps = [];

@@ -316,7 +316,7 @@ export default defineComponent({
                     }
 
                     for (const research in researchMapping) {
-                        const match = line.match(research + "\tStufe " + number);
+                        const match = line.match(research + "\\s+Stufe " + number);
                         if (match) {
                             newPlayer.research[researchMapping[research]] = Number(match[1]);
                             continue nextLine;
