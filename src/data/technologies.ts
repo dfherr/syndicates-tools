@@ -33,7 +33,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Military Sciences",
 						"level": 1,
 						"name": "Flexible Military Halls",
-						"abbreviation": "FMH, FlexMili",
+						"abbreviation": "FMH",
 						"description": "Lagerhallen und Hauptquartiere (nur BF) bieten Platz für 2 zusätzliche Spionageeinheiten pro Stufe.",
 						"duration": 8,
 						"networth": 1000,
@@ -56,7 +56,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Military Sciences",
 						"level": 1,
 						"name": "Flexible Spy Halls",
-						"abbreviation": "FSH, FlexSpy",
+						"abbreviation": "FSH",
 						"description": "Spionageeinrichtungen bieten Platz für 2 zusätzliche Militäreinheiten pro Stufe.",
 						"duration": 8,
 						"networth": 1000,
@@ -274,7 +274,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Military Sciences",
 						"level": 3,
 						"name": "Ranger & Marine Training",
-						"abbreviation": "RMT, R&M",
+						"abbreviation": "RMT",
 						"description": "Ranger erhalten je Stufe 4 AP und 2 VP zusätzlich. Marines erhalten je Stufe 2 AP und 4 VP zusätzlich.",
 						"duration": 24,
 						"networth": 4000,
@@ -377,7 +377,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Military Sciences",
 						"level": 4,
 						"name": "Defense Network",
-						"abbreviation": "DN, DefNet",
+						"abbreviation": "DN",
 						"description": "Die Verteidigungsstärke steigt pro Forschungsstufe um 10 %.",
 						"duration": 36,
 						"networth": 8000,
@@ -485,7 +485,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Military Sciences",
 						"level": 6,
 						"name": "Fog of War",
-						"abbreviation": "FoW",
+						"abbreviation": "FOW",
 						"description": "25% Verteidigungsbonus, 10% weniger Landverlust bei verlorenen Angriffen, 20% weniger Einheitenverluste bei defensiven Kampfhandlungen. Der Angriffsschutz nach einem erfolgreichen Angriff (inkl. der gelben/roten Färbung des Konzerns) hält doppelt so lange.",
 						"duration": 60,
 						"networth": 32000,
@@ -530,10 +530,10 @@ const TECHNOLOGIES: Technologies = {
 				"technologyTree": "Industrial Sciences",
 				"level": 1,
 				"technologies": {
-					"Ranger & Marines Upgrade": {
+					"Ranger & Marine Upgrade": {
 						"technologyTree": "Industrial Sciences",
 						"level": 1,
-						"name": "Ranger & Marines Upgrade",
+						"name": "Ranger & Marine Upgrade",
 						"abbreviation": "RMU",
 						"description": "Ranger und Marines produzieren Ressourcen. Je Stufe: & : UIC & NEB: 0,6 Erz; BF & NoF: 3 Energie; SL: 0,2 FP.",
 						"duration": 8,
@@ -541,19 +541,19 @@ const TECHNOLOGIES: Technologies = {
 						"ranks": [{
 								"technologyTree": "Industrial Sciences",
 								"level": 1,
-								"name": "Ranger & Marines Upgrade",
+								"name": "Ranger & Marine Upgrade",
 								"rank": 0,
 								"cost": 10000
 							}, {
 								"technologyTree": "Industrial Sciences",
 								"level": 1,
-								"name": "Ranger & Marines Upgrade",
+								"name": "Ranger & Marine Upgrade",
 								"rank": 1,
 								"cost": 30000
 							}, {
 								"technologyTree": "Industrial Sciences",
 								"level": 1,
-								"name": "Ranger & Marines Upgrade",
+								"name": "Ranger & Marine Upgrade",
 								"rank": 2,
 								"cost": 80000
 							}
@@ -592,7 +592,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Industrial Sciences",
 						"level": 1,
 						"name": "Faster Ranger Development",
-						"abbreviation": "RMU",
+						"abbreviation": "FRD",
 						"description": "Militärakademien wandeln Ranger und Marines 1h schneller zur BUC-Unit (je nach Fraktion: Carrier/Stalker/Firestorm/Strike Fighter/Patriot) um.",
 						"duration": 8,
 						"networth": 1000,
@@ -706,7 +706,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Industrial Sciences",
 						"level": 3,
 						"name": "Inner Syndicate Energy Saving Program",
-						"abbreviation": "ISESP, ESP, Energy Saving, NRG-Saving",
+						"abbreviation": "ESP",
 						"description": "(Syndikatsforschung) 25% weniger Energieverbrauch fürs Syndikat.",
 						"duration": 24,
 						"networth": 4000,
@@ -723,7 +723,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Industrial Sciences",
 						"level": 3,
 						"name": "Inner Syndicate Trade Program",
-						"abbreviation": "ISTP, Trade",
+						"abbreviation": "Trade",
 						"description": "(Syndikatsforschung) Jeder Ihrer Mitspieler im Syndikat erhält für jedes Gebäude, das er besitzt und für das der Synergiebonus gilt, 24 Credits (oder einen äquivalenten Wert einer anderen Ressource) pro Stunde und Forschungslevel. Der maximale Bonus beträgt 240 Cr. Das Wechseln der Produktion dauert solange wie das Errichten neuer Gebäude.",
 						"duration": 24,
 						"networth": 4000,
@@ -872,7 +872,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Industrial Sciences",
 						"level": 4,
 						"name": "Investment Strategies",
-						"abbreviation": "Invest",
+						"abbreviation": "IS",
 						"description": "Bis zu 10 Mio. Credits pro Forschungsstufe werden stündlich mit einem Zinssatz von 2,0 % verzinst. Bei höherem Level steigt der Zinssatz pro Level um 1 % pro Stufe auf einen Zinssatz von 5,0 % bei Level 4 (Partnerbonus + Invest3). Zusätzlich schaltet diese Forschung das Gebäude Bank frei.",
 						"duration": 36,
 						"networth": 8000,
@@ -957,7 +957,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Industrial Sciences",
 						"level": 6,
 						"name": "Economic Domination",
-						"abbreviation": "ED, EcoDom, Eco",
+						"abbreviation": "EcoDom",
 						"description": "+100 % Produktionsbonus auf alle Ressourcen.",
 						"duration": 60,
 						"networth": 32000,
@@ -1023,7 +1023,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Intelligence Sciences",
 						"level": 1,
 						"name": "Spy Web",
-						"abbreviation": "SpyWeb",
+						"abbreviation": "",
 						"description": "Level 1: Bei erfolgreichen Spionageaktionen gegen ihren Konzern wird der Typ der Spionageaktion angezeigt. Level 2: Sie werden über den Auftraggeber benachrichtigt, Racherecht wird erteilt. Level 3: +20 % Verteidigung gegen Spionage.",
 						"duration": 8,
 						"networth": 1000,
@@ -1077,30 +1077,30 @@ const TECHNOLOGIES: Technologies = {
 							}
 						]
 					},
-					"Einführung des 36 Stunden Tags für übermotivierte Wissenschaftler": {
+					"Einfuehrung des 36 Stunden Tags fuer uebermotivierte Wissenschaftler": {
 						"technologyTree": "Intelligence Sciences",
 						"level": 1,
-						"name": "Einführung des 36 Stunden Tags für übermotivierte Wissenschaftler",
-						"abbreviation": "36h, 36h-Tag",
+						"name": "Einfuehrung des 36 Stunden Tags fuer uebermotivierte Wissenschaftler",
+						"abbreviation": "36h Tag",
 						"description": "(Syndikatsforschung) Je Level sinken die Kosten für Forschungen im Syndikat um 7,5% (max 75%).",
 						"duration": 8,
 						"networth": 1000,
 						"ranks": [{
 								"technologyTree": "Intelligence Sciences",
 								"level": 1,
-								"name": "Einführung des 36 Stunden Tags für übermotivierte Wissenschaftler",
+								"name": "Einfuehrung des 36 Stunden Tags fuer uebermotivierte Wissenschaftler",
 								"rank": 0,
 								"cost": 10000
 							}, {
 								"technologyTree": "Intelligence Sciences",
 								"level": 1,
-								"name": "Einführung des 36 Stunden Tags für übermotivierte Wissenschaftler",
+								"name": "Einfuehrung des 36 Stunden Tags fuer uebermotivierte Wissenschaftler",
 								"rank": 1,
 								"cost": 30000
 							}, {
 								"technologyTree": "Intelligence Sciences",
 								"level": 1,
-								"name": "Einführung des 36 Stunden Tags für übermotivierte Wissenschaftler",
+								"name": "Einfuehrung des 36 Stunden Tags fuer uebermotivierte Wissenschaftler",
 								"rank": 2,
 								"cost": 80000
 							}
@@ -1144,7 +1144,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Intelligence Sciences",
 						"level": 2,
 						"name": "Spy Training",
-						"abbreviation": "ST",
+						"abbreviation": "",
 						"description": "20 % weniger Einheitenverluste bei misslungenen Spionageaktionen.",
 						"duration": 12,
 						"networth": 2000,
@@ -1232,10 +1232,10 @@ const TECHNOLOGIES: Technologies = {
 							}
 						]
 					},
-					"Increased Divident Distribution": {
+					"Increased Dividend Distribution": {
 						"technologyTree": "Intelligence Sciences",
 						"level": 3,
-						"name": "Increased Divident Distribution",
+						"name": "Increased Dividend Distribution",
 						"abbreviation": "IDD",
 						"description": "Erhöht die Dividendenausschüttung durch Syndikatsanleihen um 50%. (Gilt nicht für Anleihen des eigenen Syndikats)",
 						"duration": 24,
@@ -1243,7 +1243,7 @@ const TECHNOLOGIES: Technologies = {
 						"ranks": [{
 								"technologyTree": "Intelligence Sciences",
 								"level": 3,
-								"name": "Increased Divident Distribution",
+								"name": "Increased Dividend Distribution",
 								"rank": 0,
 								"cost": 160000
 							}
@@ -1373,7 +1373,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Intelligence Sciences",
 						"level": 4,
 						"name": "Improved Spylabs",
-						"abbreviation": "IS, ISL",
+						"abbreviation": "ISL",
 						"description": "Eine Spionageeinrichtung unterhält vier zusätzliche Spionageeinheiten.",
 						"duration": 36,
 						"networth": 8000,
@@ -1407,7 +1407,7 @@ const TECHNOLOGIES: Technologies = {
 						"technologyTree": "Intelligence Sciences",
 						"level": 5,
 						"name": "Motivationsprogramm für deprimierte Wissenschaftler",
-						"abbreviation": "Moti, MdW",
+						"abbreviation": "Moti",
 						"description": "Sie forschen 25% schneller.",
 						"duration": 48,
 						"networth": 16000,
