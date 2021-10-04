@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
  */
 export default {
   plugins: [vue()],
-  base: '/syndicates/',
+  base: '/syndicates-tools/',
   build: {
     outDir: 'docs',
   },
